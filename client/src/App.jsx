@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import Fetch from 'react-fetch';
 
 import './App.css';
+import Converter from './Converter';
 
 export default class App extends Component{
     render() {
         return (
-            <Fetch url="/api/rates">
-                <MulticcyBox/>
-            </Fetch>
+            <MulticcyBox url={this.props.url}/>
         )
     }
 }
@@ -29,9 +27,31 @@ class MulticcyBox extends Component {
         };
     }
 
+    componentDidMount() {
+        if (this.props.url) {
+            this.fetchRates(this.props.url);
+        } else {
+            this.setState({error: "No rates URL was provided"});
+        }
+    }
+
+    fetchRates(url) {
+        fetch(url, {})
+            .then(res => {
+                return res.json()
+            })
+            .then(json => {
+                this.setState({converter: new Converter(json.rates)});
+            })
+            .catch(error => {
+                console.error(error);
+                this.setState({error: "There was an error loading rates"});
+            })
+    }
+
     handleMulticcySubmit(request) {
         // Called from MulticcyForm when a multiccy request is submitted
-        var result = doConversion(this.props.rates, request.entry);
+        var result = this.state.converter.convert(request.entry);
         this.setState({error: ''});
 
         var history = this.state.history;
@@ -100,21 +120,26 @@ class MulticcyForm extends Component {
 
 class MulticcyResult extends Component {
     render() {
-        return (
-            <div>
-                <p className="multiccyResult">
-                    {renderConversion(this.props.result)}
-                </p>
-            </div>
-        );
+        if (this.props.error) {
+            return (<p>Error: {this.props.error}</p>);
+        } else {
+            return (
+                <div>
+                    <p className="multiccyResult">
+                        {renderConversion(this.props.result)}
+                    </p>
+                </div>
+            );
+        }
     }
 }
 
 class MulticcyHistory extends Component {
     render() {
+        let key = 0;
         var nodes = this.props.history.map(function(node) {
             return (
-                <MulticcyRow data={node} />
+                <MulticcyRow key={key++} data={node} />
             );
         });
         return (
@@ -136,21 +161,4 @@ function renderConversion(data) {
     return data ?
            ( data.fromAmount + " " + data.fromCcy + " = " +
              data.toAmount + " " + data.toCcy ) : "";
-}
-
-function doConversion(rates, text) {
-    console.log('The rates are: ', rates);
-
-    const words = text.split(' ');
-    const fromAmount = words[0];
-    const fromCcy = words[1].toUpperCase();
-    const toCcy = words[3].toUpperCase();
-
-    const fromUsd = (fromCcy === 'USD') ?
-                    fromAmount : fromAmount / rates[fromCcy];
-    const toAmount = (toCcy === 'USD') ?
-                     fromUsd : fromUsd * rates[toCcy];
-
-    return {fromAmount: fromAmount, fromCcy: fromCcy,
-            toAmount: toAmount, toCcy: toCcy};
 }
