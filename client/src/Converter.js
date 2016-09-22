@@ -4,8 +4,8 @@ export default class Converter {
     }
 
     convert(text) {
-        const words = text.split(' ');
-        const fromAmount = words[0];
+        const words = text.trim().split(/\s+/);
+        const fromAmount = Number(words[0]);
         const fromCcy = words[1].toUpperCase();
         const toCcy = words[3].toUpperCase();
 
@@ -14,8 +14,7 @@ export default class Converter {
         const toAmount = (toCcy === 'USD') ?
               fromUsd : fromUsd * this.rates[toCcy];
 
-        return {fromAmount: fromAmount, fromCcy: fromCcy,
-                toAmount: toAmount, toCcy: toCcy};
+        return {fromAmount, fromCcy, toAmount, toCcy};
     }
 
 }
