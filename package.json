@@ -21,6 +21,7 @@
     "server": "API_PORT=3001 ./node_modules/.bin/babel-node server/server.js",
     "build": "cd client && ./node_modules/.bin/react-scripts build",
     "test": "cd client && ./node_modules/.bin/react-scripts test --env=jsdom",
+    "test:report": "cd client && CI=1 ./node_modules/.bin/react-scripts test --env=jsdom --verbose --coverage",
     "eject": "cd client && ./node_modules/.bin/react-scripts eject"
   }
 }
