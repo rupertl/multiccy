@@ -42,6 +42,14 @@ it('extracts from amount if before from ccy', () => {
     expect(Parser("JPY100 to GBP").fromAmount).toBe(100);
 });
 
+it('extracts from ccy if it is a symbol', () => {
+    expect(Parser("$100 to GBP").fromCcy).toBe("USD");
+});
+
+it('extracts to ccy if it is a symbol', () => {
+    expect(Parser("USD 100 to £").toCcy).toBe("GBP");
+});
+
 it('errors if nothing provided', () => {
     expect(Parser().error).toBeDefined();
 });
@@ -80,4 +88,12 @@ it('errors if two numbers are provided', () => {
 
 it('errors if a number is provided instead of a to ccy', () => {
     expect(Parser("100 gbp to 200").error).toBeDefined();
+});
+
+it('errors if from currency cannot be an ISO currency', () => {
+    expect(Parser("@100 to usd").error).toBeDefined();
+});
+
+it('errors if to currency cannot be an ISO currency', () => {
+    expect(Parser("100 USD to XXXXXX").error).toBeDefined();
 });
