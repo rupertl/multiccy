@@ -1,6 +1,14 @@
+// Class to do currency conversions based on text input.
+
+import fx from 'money';
+
+// Currency that conversion rates are expressed in.
+const BASE_CURRENCY = 'USD';
+
 export default class Converter {
     constructor(rates) {
-        this.rates = rates;
+        fx.base = BASE_CURRENCY;
+        fx.rates = rates;
     }
 
     convert(text) {
@@ -9,12 +17,12 @@ export default class Converter {
         const fromCcy = words[1].toUpperCase();
         const toCcy = words[3].toUpperCase();
 
-        const fromUsd = (fromCcy === 'USD') ?
-              fromAmount : fromAmount / this.rates[fromCcy];
-        const toAmount = (toCcy === 'USD') ?
-              fromUsd : fromUsd * this.rates[toCcy];
-
-        return {fromAmount, fromCcy, toAmount, toCcy};
+        try {
+            const toAmount = fx(fromAmount).from(fromCcy).to(toCcy);
+            return {fromAmount, fromCcy, toAmount, toCcy};
+        } catch (e) {
+            return {error: e};
+        }
     }
 
 }

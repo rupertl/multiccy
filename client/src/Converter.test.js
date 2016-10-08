@@ -2,7 +2,7 @@ import Converter from './Converter';
 
 /* eslint-disable no-unused-vars */
 
-const converter = new Converter({USD: 1, EUR: 0.90, JPY: 101});
+const converter = new Converter({USD: 1, EUR: 0.90, JPY: 101, GBP: 0.81});
 
 it('returns from/to amount and ccy', () => {
     expect(Object.keys(converter.convert("100 USD to GBP")).sort())

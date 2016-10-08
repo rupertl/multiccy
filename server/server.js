@@ -4,7 +4,7 @@ const app = express();
 app.set('port', (process.env.API_PORT || 3001));
 
 app.get('/api/rates', (req, res) => {
-    return res.json({'rates': {'GBP': 0.77, 'EUR': 0.90}});
+    return res.json({'rates': {'USD': 1, 'GBP': 0.77, 'EUR': 0.90}});
 });
 
 app.listen(app.get('port'), () => {

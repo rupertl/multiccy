@@ -39,3 +39,8 @@ ul {
 .multiccyResult {
     font-size: 1.5em;
 }
+
+.multiccyError {
+    font-size: 1.5em;
+    color: red;
+}

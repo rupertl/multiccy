@@ -52,12 +52,13 @@ class MulticcyBox extends Component {
     handleMulticcySubmit(request) {
         // Called from MulticcyForm when a multiccy request is submitted
         var result = this.state.converter.convert(request.entry);
-        this.setState({error: ''});
-
-        var history = this.state.history;
-        history.unshift(result);
-        this.setState({history: history});
-
+        if (result.error) {
+            this.setState({error: result.error});
+        } else {
+            var history = this.state.history;
+            history.unshift(result);
+            this.setState({history: history, error: ''});
+        }
     }
 
     render() {
@@ -121,7 +122,7 @@ class MulticcyForm extends Component {
 class MulticcyResult extends Component {
     render() {
         if (this.props.error) {
-            return (<p>Error: {this.props.error}</p>);
+            return (<p className="multiccyError">Error: {this.props.error}</p>);
         } else {
             return (
                 <div>
