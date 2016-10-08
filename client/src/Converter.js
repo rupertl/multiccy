@@ -16,9 +16,16 @@ export default class Converter {
         const toConvert = Parser(text);
         if (toConvert.error) {
             return toConvert;
-        } else {
-            return this.doConversion(toConvert);
         }
+
+        if (! fx.rates[toConvert.fromCcy]) {
+            return {error: "No rate available for from currency"};
+        }
+        if (! fx.rates[toConvert.toCcy]) {
+            return {error: "No rate available for to currency"};
+        }
+
+        return this.doConversion(toConvert);
     }
 
     doConversion({fromAmount, fromCcy, toCcy}) {

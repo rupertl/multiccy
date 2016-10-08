@@ -38,6 +38,10 @@ it('errors if no amount provided', () => {
     expect(converter.convert("gbp to usd").error).toBeDefined();
 });
 
-it('errors if no such currency provided', () => {
+it('errors if no such from currency provided', () => {
     expect(converter.convert("100 gbp to xxx").error).toBeDefined();
+});
+
+it('errors if no such to currency provided', () => {
+    expect(converter.convert("100 xxx to gbp").error).toBeDefined();
 });
