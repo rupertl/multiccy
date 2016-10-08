@@ -1,29 +1,6 @@
 import Converter from './Converter';
 
-/* eslint-disable no-unused-vars */
-
 const converter = new Converter({USD: 1, EUR: 0.90, JPY: 101, GBP: 0.81});
-
-it('returns from/to amount and ccy', () => {
-    expect(Object.keys(converter.convert("100 USD to GBP")).sort())
-        .toEqual(['fromAmount', 'fromCcy', 'toAmount', 'toCcy']);
-});
-
-it('extracts from amount', () => {
-    expect(converter.convert("100 USD to GBP").fromAmount).toBe(100);
-});
-
-it('extracts from ccy', () => {
-    expect(converter.convert("100 USD to GBP").fromCcy).toBe("USD");
-});
-
-it('extracts from ccy if lower case', () => {
-    expect(converter.convert("100 jpy to gbp").fromCcy).toBe("JPY");
-});
-
-it('extracts from ccy if extra whitespace', () => {
-    expect(converter.convert("  100   JPY  to  GBP   ").fromCcy).toBe("JPY");
-});
 
 it('converts to and from the same currency', () => {
     expect(converter.convert("100 JPY to JPY").toAmount).toBe(100);
@@ -55,4 +32,12 @@ it('converts zero amount to zero', () => {
 
 it('converts negative amounts', () => {
     expect(converter.convert("-10 USD to JPY").toAmount).toBe(-1010);
+});
+
+it('errors if no amount provided', () => {
+    expect(converter.convert("gbp to usd").error).toBeDefined();
+});
+
+it('errors if no such currency provided', () => {
+    expect(converter.convert("100 gbp to xxx").error).toBeDefined();
 });

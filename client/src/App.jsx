@@ -122,7 +122,7 @@ class MulticcyForm extends Component {
 class MulticcyResult extends Component {
     render() {
         if (this.props.error) {
-            return (<p className="multiccyError">Error: {this.props.error}</p>);
+            return (<p className="multiccyError">{this.props.error}</p>);
         } else {
             return (
                 <div>
