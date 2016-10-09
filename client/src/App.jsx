@@ -52,7 +52,7 @@ class MulticcyBox extends Component {
 
     handleMulticcySubmit(request) {
         // Called from MulticcyForm when a multiccy request is submitted
-        var result = this.state.converter.convert(request.entry);
+        const result = this.state.converter.convert(request.entry);
         if (result.error) {
             this.setState({error: result.error});
         } else {
@@ -64,15 +64,26 @@ class MulticcyBox extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Multiccy</h1>
-                <MulticcyForm
-                    onMulticcySubmit={(request) =>
-                        this.handleMulticcySubmit(request)}
-                />
-                <MulticcyResult error={this.state.error} result={this.state.history[0]} />
-                <hr/>
-                <MulticcyHistory history={this.state.history} />
+            <div id="multiCcyBox">
+                <div id="header">
+                    <h1>Multiccy</h1>
+                </div>
+                <div id="body">
+                    <MulticcyForm
+                        onMulticcySubmit={(request) =>
+                            this.handleMulticcySubmit(request)}
+                    />
+                    <MulticcyResult
+                        error={this.state.error}
+                        result={this.state.history[0]}
+                    />
+                    <MulticcyHistory history={this.state.history} />
+                </div>
+                <div id="footer">
+                    <footer>
+                        © <a href="https://www.rupert-lane.org">Rupert Lane</a> 2016 | <a href="https://github.com/rupertl/multiccy">Source code</a> | All rates are for information purposes only
+                    </footer>
+                </div>
             </div>
         );
     }
@@ -114,7 +125,7 @@ class MulticcyForm extends Component {
                     value={this.state.entry}
                     onChange={(entry) => this.handleEntryChange(entry)}
                 />
-                <input type="submit" value="Go" />
+                <input className="button" type="submit" value="Go" />
             </form>
         );
     }
@@ -140,12 +151,13 @@ class MulticcyResult extends Component {
 
 class MulticcyHistory extends Component {
     render() {
+        if (this.props.history.length === 0) {
+            return (<div/>);
+        }
+
         let key = 0;
-        var nodes = this.props.history.map(function(node) {
-            return (
-                <MulticcyRow key={key++} data={node} />
-            );
-        });
+        const nodes = this.props.history.map(node =>
+            <MulticcyRow key={key++} data={node} />);
         return (
             <div>
                 <h2>History</h2>
