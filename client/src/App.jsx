@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Converter from './Converter';
+import Formatter from './Formatter';
 
 export default class App extends Component{
     render() {
@@ -123,14 +124,16 @@ class MulticcyResult extends Component {
     render() {
         if (this.props.error) {
             return (<p className="multiccyError">{this.props.error}</p>);
-        } else {
+        } else if (this.props.result) {
             return (
                 <div>
                     <p className="multiccyResult">
-                        {renderConversion(this.props.result)}
+                        {Formatter(this.props.result)}
                     </p>
                 </div>
             );
+        } else {
+            return <div/>
         }
     }
 }
@@ -154,12 +157,6 @@ class MulticcyHistory extends Component {
 
 class MulticcyRow extends Component {
     render() {
-        return <p>{renderConversion(this.props.data)}</p>;
+        return <p>{Formatter(this.props.data)}</p>;
     }
-}
-
-function renderConversion(data) {
-    return data ?
-           ( data.fromAmount + " " + data.fromCcy + " = " +
-             data.toAmount + " " + data.toCcy ) : "";
 }

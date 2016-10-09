@@ -63,7 +63,7 @@ function isNumeric(n) {
 }
 
 function mapCurrency(s) {
-    return CURRENCY_SYMBOLS[s] ? CURRENCY_SYMBOLS[s] : s;
+    return s in CURRENCY_SYMBOLS ? CURRENCY_SYMBOLS[s] : s;
 }
 
 function validateCurrency(c) {
