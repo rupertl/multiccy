@@ -24,7 +24,7 @@ app.get('/api/rates', (req, res) => {
     return res.json(ratesProvider.getRates());
 });
 
-app.listen(app.get('port'), () => {
+app.listen(app.get('port'), 'localhost', () => {
     console.log(`Find the server at: http://localhost:${app.get('port')}/`);
 });
 
