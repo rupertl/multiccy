@@ -3,4 +3,4 @@
 export NODE_ENV=production
 export API_PORT=10440
 
-npm run server
+./node_modules/.bin/babel-node server/server.js
