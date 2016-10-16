@@ -81,7 +81,7 @@ class MulticcyBox extends Component {
                 </div>
                 <div id="footer">
                     <footer>
-                        © <a href="https://www.rupert-lane.org">Rupert Lane</a> 2016 | <a href="https://github.com/rupertl/multiccy">Source code</a> | All rates are for information purposes only
+                        © <a href="https://www.rupert-lane.org">Rupert Lane</a> 2016 | <a href="https://github.com/rupertl/multiccy">Source code</a> | All rates are for informational purposes only
                     </footer>
                 </div>
             </div>
@@ -120,7 +120,8 @@ class MulticcyForm extends Component {
                 onSubmit={(entry) => this.handleSubmit(entry)}>
                 <input
                     type="text"
-                    size="50"
+                    size="30"
+                    autoComplete="off" spellCheck="false" autoCorrect="off"
                     placeholder="Enter a conversion, eg 100 GBP to USD"
                     value={this.state.entry}
                     onChange={(entry) => this.handleEntryChange(entry)}
